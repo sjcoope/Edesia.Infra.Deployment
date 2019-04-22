@@ -1,0 +1,24 @@
+FROM ubuntu
+
+RUN apt-get update
+
+# Install curl, nodejs and git.
+RUN apt-get install -y curl git
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash
+RUN apt-get install -y nodejs
+RUN node -v
+
+# Get NPM dependencies
+COPY package.json /tmp/package.json
+RUN cd /tmp && npm install
+RUN cp -a /tmp/node_modules node_modules
+
+# Get Python dependencies
+RUN apt-get install -y python
+RUN python --version
+RUN apt-get install -y python-pip
+RUN pip install boto3
+RUN apt-get -y install awscli
+RUN aws --version
+RUN pip install tqdm
+RUN pip install fake-factory

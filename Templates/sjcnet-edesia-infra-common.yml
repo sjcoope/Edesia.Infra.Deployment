@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "This template includes all resources required in the deployment/build of Edesia project."
+Parameters:
+  Environment: 
+    Type: String
+Resources:
+  DeploymentS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub sjcnet-edesia-deployment-${Environment}
+      AccessControl: Private
+      LifecycleConfiguration:
+        Rules: 
+          - 
+            ExpirationInDays: 5
+            Status: Enabled
+      Tags:
+        - 
+          Key: AppName
+          Value: Edesia
+        - 
+          Key: EnvironmentName
+          Value: !Ref Environment
